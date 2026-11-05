@@ -1,0 +1,6 @@
+gradio
+groq
+spaces
+pandas
+tabulate
+matplotlib
