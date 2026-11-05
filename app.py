@@ -1099,13 +1099,10 @@ if page == "🏠 Home":
 
     st.divider()
 
-    if st.button(
-        "ENTER RESEARCH WORKSPACE →",
-        type="primary",
-        use_container_width=True
-    ):
-        st.session_state["main_navigation"] = "📊 Dashboard"
-        st.rerun()
+  st.info(
+    "To enter your research workspace, select Dashboard "
+    "from the Navigation menu."
+)
 
 
 # ============================================================
