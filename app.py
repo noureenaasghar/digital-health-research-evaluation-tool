@@ -4,16 +4,14 @@ import tempfile
 from datetime import datetime
 
 import pandas as pd
-import gradio as gr
-import spaces
-import matplotlib
+import streamlit as st
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from groq import Groq
 
 
 MODEL = "openai/gpt-oss-20b"
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+GROQ_API_KEY = st.secrets.get("GROQ_API_KEY", os.environ.get("GROQ_API_KEY"))
 PROJECTS_FILE = "research_projects.json"
 
 MODULES = [
@@ -241,7 +239,7 @@ def create_project(project_name, innovation_name, innovation_description, target
 
 def get_client():
     if not GROQ_API_KEY:
-        raise ValueError("GROQ_API_KEY is missing. Add it in Hugging Face Settings → Secrets.")
+        raise ValueError("GROQ_API_KEY is missing. Add it in Streamlit Cloud → App Settings → Secrets.")
     return Groq(api_key=GROQ_API_KEY)
 
 
@@ -292,7 +290,7 @@ Use only supplied evidence. Do not invent quotations. Produce concise Markdown w
         return ai_error("Qualitative Analysis", error), "", gr.update()
 
 
-def analyze_quantitative(file_path, project_index):
+df = pd.read_csv(file_path)
     if not file_path:
         return "⚠️ Please upload a CSV file.", "", [], gr.update()
     try:
@@ -571,7 +569,7 @@ def populate_module(project_index):
 # APPLICATION
 # ============================================================
 
-with gr.Blocks(title="Digital Health AI Research Platform") as demo:
+with st.set_page_config()(title="Digital Health AI Research Platform") as demo:
     selected_project = gr.State(0)
 
     # ========================================================
@@ -720,7 +718,7 @@ with gr.Blocks(title="Digital Health AI Research Platform") as demo:
     # ========================================================
 
     with gr.Column(visible=False) as dashboard:
-        gr.Markdown("# 🧠 Digital Health AI Research Platform\n## Researcher Dashboard")
+       st.markdown()("# 🧠 Digital Health AI Research Platform\n## Researcher Dashboard")
         with gr.Row():
             project_count = gr.Markdown("### 📁 Projects\n# 0")
             gr.Markdown("### 📝 Analyses\n# AI-assisted")
