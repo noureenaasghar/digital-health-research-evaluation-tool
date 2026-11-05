@@ -1,6 +1,5 @@
-gradio
+streamlit
 groq
-spaces
 pandas
 tabulate
 matplotlib
